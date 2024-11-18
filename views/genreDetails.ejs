@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= genre.name %> Details</title>
+  </head>
+  <body>
+    <h1>Genre: <%= genre.name %></h1>
+
+    <h2>Movies in this Genre:</h2>
+    <% if (movies.length > 0) { %>
+    <ul>
+      <% movies.forEach(movie => { %>
+      <li>
+        <%= movie.title %> (<%= movie.release_year %>) - Directed by <%=
+        movie.director %>
+      </li>
+      <% }) %>
+    </ul>
+    <% } else { %>
+    <p>No movies in this genre yet.</p>
+    <% } %>
+
+    <a href="/movies/new?genreId=<%= genre.id %>">Add New Movie</a>
+    <br />
+    <a href="/genres">Back to Genres</a>
+  </body>
+</html>

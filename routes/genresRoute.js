@@ -6,6 +6,8 @@ genresRoute.get("/", genresController.getAllGenres);
 
 genresRoute.post("/", genresController.createGenrePost);
 
+genresRoute.get("/:name", genresController.findGenreByName);
+
 genresRoute.get("/new", (req, res) => {
   res.render("genreForm");
 });
