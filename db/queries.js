@@ -59,53 +59,39 @@ async function findMovieId(title) {
     throw error; // Re-throw the error to handle it in the caller
   }
 }
-
-async function linkMovieToGenre(movieTitle, genreId) {
+async function linkMovieToGenre(movieId, genreId) {
   try {
-    const movieId = await findMovieId(movieTitle); // Find the movie ID based on the title
-
-    if (!movieId) {
-      console.error("Movie not found or invalid movie ID.");
-      return;
-    }
-
-    // Check if the movie-genre combination already exists in the movies_genres table
-    const result = await pool.query(
-      "SELECT 1 FROM movie_genres WHERE movie_id = $1 AND genre_id = $2",
-      [movieId, genreId]
-    );
-
-    if (result.rows.length > 0) {
-      console.log("This movie is already linked to this genre.");
-      return; // Exit if the movie is already linked to the genre
-    }
-
-    // If the movie is not already linked to the genre, insert the link
     await pool.query(
       "INSERT INTO movie_genres (movie_id, genre_id) VALUES ($1, $2)",
       [movieId, genreId]
     );
-
     console.log("Movie successfully linked to genre.");
   } catch (error) {
-    console.error("Error linking movie to genre:", error.message);
+    if (error.code === "23505") {
+      console.log("This movie is already linked to this genre."); // Unique constraint violation
+    } else {
+      console.error("Error linking movie to genre:", error.message);
+      throw error;
+    }
   }
 }
 
 async function findMoviesByGenreName(genreName) {
   try {
     const result = await pool.query(
-      `SELECT m.title
+      `SELECT m.id, m.title, m.release_year, m.director, m.description
        FROM movies m
        JOIN movie_genres mg ON m.id = mg.movie_id
        JOIN genres g ON g.id = mg.genre_id
-       WHERE g.name = $1`,
+       WHERE g.name ILIKE $1`, // Use ILIKE for case-insensitive match
       [genreName]
     );
-
-    return result.rows; // This will be an array of movie titles
+    return result.rows; // Return an array of movie details
   } catch (error) {
-    console.error("Error fetching movies for genre:", error.message);
+    console.error(
+      `Error fetching movies for genre "${genreName}":`,
+      error.message
+    );
     throw error;
   }
 }

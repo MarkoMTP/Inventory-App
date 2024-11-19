@@ -28,6 +28,10 @@ exports.findGenreByName = async (req, res) => {
       return res.redirect("/genres"); // Redirect to genres list if genre not found
     }
 
+    movies.forEach((movie) => {
+      console.log(movie.release_year);
+    });
+
     res.render("genreDetails", { genre: genre, movies: movies });
   } catch (error) {
     console.error("Error fetching genre by name:", error.message);
@@ -41,12 +45,7 @@ exports.addMovieToGenre = async (req, res) => {
   const { title, releaseYear, director, description } = req.body;
 
   try {
-    const movieId = await db.insertMovie(
-      title,
-      releaseYear,
-      director,
-      description
-    );
+    await db.insertMovie(title, releaseYear, director, description);
 
     const genreId = await db.findGenreId(genreName);
     if (!genreId) {
