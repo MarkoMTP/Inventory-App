@@ -9,9 +9,10 @@
     <h1>All Genres</h1>
     <ul>
       <% genres.forEach((genre) => { %>
-
-      <a href="/genres/<%=genre.name%>"><%=genre.name%></a>
-      <% }); %>
+      <li>
+        <a href="/genres/<%=genre.name%>"><%=genre.name%></a>
+        <% }); %>
+      </li>
     </ul>
 
     <a href="/">Go back</a>

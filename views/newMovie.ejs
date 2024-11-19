@@ -6,8 +6,8 @@
     <title>Add New Movie</title>
   </head>
   <body>
-    <h1>Add a New Movie</h1>
-    <form action="/genres/<%=genre.title%>/new" method="POST">
+    <h1>Add a New Movie To "<%=genre.name%>" Genre</h1>
+    <form action="/genres/<%=genre.name%>" method="POST">
       <div>
         <label for="title">Movie Title:</label>
         <input type="text" id="title" name="title" required />

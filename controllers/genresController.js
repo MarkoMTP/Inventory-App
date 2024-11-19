@@ -18,16 +18,47 @@ exports.createGenrePost = async (req, res) => {
 
 exports.findGenreByName = async (req, res) => {
   try {
-    const genreName = req.params.name; // Do not parseInt since name is likely a string
+    const genreName = req.params.name;
+    const movies = await db.findMoviesByGenreName(genreName);
+    // Do not parseInt since name is likely a string
     const genre = await db.findGenreByName(genreName); // Await the async function
 
     if (!genre) {
-      return res.status(404).send("Genre not found");
+      console.error("Genre not found.");
+      return res.redirect("/genres"); // Redirect to genres list if genre not found
     }
 
-    res.render("genreDetails", { genre: genre, movies: "" });
+    res.render("genreDetails", { genre: genre, movies: movies });
   } catch (error) {
     console.error("Error fetching genre by name:", error.message);
     res.status(500).send("An error occurred while fetching the genre.");
+  }
+};
+
+//creates a new movie and adds it automatically to new Genre
+exports.addMovieToGenre = async (req, res) => {
+  const genreName = req.params.name;
+  const { title, releaseYear, director, description } = req.body;
+
+  try {
+    const movieId = await db.insertMovie(
+      title,
+      releaseYear,
+      director,
+      description
+    );
+
+    const genreId = await db.findGenreId(genreName);
+    if (!genreId) {
+      return res.status(404).send("Genre not found");
+    }
+
+    await db.linkMovieToGenre(title, genreId);
+    res.redirect(`/genres/${genreName}`); // Redirect instead of rendering directly
+  } catch (error) {
+    console.error("Error occurred:", error.message);
+    res
+      .status(500)
+      .send("An error occurred while adding the movie to the genre.");
   }
 };

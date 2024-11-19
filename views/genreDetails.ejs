@@ -20,9 +20,12 @@
     </ul>
     <% } else { %>
     <p>No movies in this genre yet.</p>
+    <% } %> <% if (genre && genre.name) { %>
+    <a href="/genres/<%= genre.name %>/new">Add New Movie</a>
+    <% } else { %>
+    <p>Invalid genre. Cannot add a movie.</p>
     <% } %>
 
-    <a href="/movies/new?genreId=<%= genre.id %>">Add New Movie</a>
     <br />
     <a href="/genres">Back to Genres</a>
   </body>
