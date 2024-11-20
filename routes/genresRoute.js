@@ -23,4 +23,8 @@ genresRoute.get("/:name/new", (req, res) => {
   res.render("newMovie", { genre: { name } });
 });
 
+genresRoute.get("/:name/:title/details", genresController.getMovieDetails);
+
+genresRoute.post("/:name/delete");
+
 module.exports = genresRoute;

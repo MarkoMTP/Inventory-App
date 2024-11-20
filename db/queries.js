@@ -110,6 +110,18 @@ async function insertMovie(title, releaseYear, director, description) {
   }
 }
 
+async function findMovieByName(movieTitle) {
+  try {
+    const result = await pool.query("SELECT * FROM movies WHERE title = $1", [
+      movieTitle,
+    ]);
+    return result.rows[0]; // Return the first row (movie details)
+  } catch (error) {
+    console.error("Error fetching movie by title:", error.message);
+    throw error; // Re-throw the error for handling in the caller
+  }
+}
+
 module.exports = {
   createNewGenre,
   getAllGenres,
@@ -119,4 +131,5 @@ module.exports = {
   linkMovieToGenre,
   findMoviesByGenreName,
   insertMovie,
+  findMovieByName,
 };

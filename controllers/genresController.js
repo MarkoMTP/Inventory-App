@@ -28,10 +28,6 @@ exports.findGenreByName = async (req, res) => {
       return res.redirect("/genres"); // Redirect to genres list if genre not found
     }
 
-    movies.forEach((movie) => {
-      console.log(movie.release_year);
-    });
-
     res.render("genreDetails", { genre: genre, movies: movies });
   } catch (error) {
     console.error("Error fetching genre by name:", error.message);
@@ -59,5 +55,26 @@ exports.addMovieToGenre = async (req, res) => {
     res
       .status(500)
       .send("An error occurred while adding the movie to the genre.");
+  }
+};
+
+exports.getMovieDetails = async (req, res) => {
+  const movieTitle = req.params.title; // Movie title from the URL
+  const genreName = req.params.name; // Genre name from the URL
+
+  try {
+    // Fetch movie details by title
+    const movie = await db.findMovieByName(movieTitle);
+
+    if (!movie) {
+      // If no movie is found, return a 404 page or message
+      return res.status(404).send("Movie not found");
+    }
+
+    // Render the view with the movie details and genre
+    res.render("movieDetails", { genreName, movie }); // Pass the movie object to the view
+  } catch (error) {
+    console.error("Error fetching movie details:", error.message);
+    res.status(500).send("An error occurred while fetching the movie details.");
   }
 };

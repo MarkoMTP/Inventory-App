@@ -4,6 +4,30 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%= genre.name %> Details</title>
+    <style>
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+      li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+      button {
+        margin-left: 10px;
+        padding: 5px 10px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #0056b3;
+      }
+    </style>
   </head>
   <body>
     <h1>Genre: <%= genre.name %></h1>
@@ -13,8 +37,13 @@
     <ul>
       <% movies.forEach(movie => { %>
       <li>
-        <%= movie.title %> (<%= movie.release_year %>) - Directed by <%=
-        movie.director %>
+        <span>
+          <%= movie.title %> (<%= movie.release_year %>) - Directed by <%=
+          movie.director %>
+        </span>
+        <a href="/genres/<%=genre.name%>/<%=movie.title%>/details"
+          >View Details</a
+        >
       </li>
       <% }) %>
     </ul>
