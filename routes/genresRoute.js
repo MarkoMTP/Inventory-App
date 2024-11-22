@@ -25,6 +25,6 @@ genresRoute.get("/:name/new", (req, res) => {
 
 genresRoute.get("/:name/:title/details", genresController.getMovieDetails);
 
-genresRoute.post("/:name/delete");
+genresRoute.post("/:name/:title/delete", genresController.deleteMovie);
 
 module.exports = genresRoute;

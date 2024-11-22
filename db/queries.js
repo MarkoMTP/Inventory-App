@@ -122,6 +122,29 @@ async function findMovieByName(movieTitle) {
   }
 }
 
+async function removeMovie(genreId, movieId) {
+  try {
+    // Step 1: Remove the movie-genre association
+    await pool.query(
+      `DELETE FROM movie_genres WHERE movie_id = $1 AND genre_id = $2`,
+      [movieId, genreId]
+    );
+
+    // Step 2: Delete the movie from the movies table
+    await pool.query(
+      `DELETE FROM movies WHERE id = $1`,
+      [movieId] // Passing movieId as a parameter
+    );
+
+    console.log(
+      `Movie with ID ${movieId} successfully deleted and unlinked from genre with ID ${genreId}`
+    );
+  } catch (error) {
+    console.error("Error removing movie:", error.message);
+    throw new Error("An error occurred while removing the movie.");
+  }
+}
+
 module.exports = {
   createNewGenre,
   getAllGenres,
@@ -132,4 +155,5 @@ module.exports = {
   findMoviesByGenreName,
   insertMovie,
   findMovieByName,
+  removeMovie,
 };

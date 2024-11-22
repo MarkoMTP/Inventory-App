@@ -51,7 +51,7 @@
   <body>
     <h1>Movie Details</h1>
 
-    <!-- Check if movie exists and display its details -->
+    <!-- Loop through and display movie details -->
     <% if (movie) { %>
     <div class="movie-details">
       <h2><%= movie.title %></h2>
@@ -64,8 +64,8 @@
     <div class="actions">
       <!-- Delete Movie Form -->
       <form
-        action="/genres/<%= genreName %>/movies/<%= movie.id %>/delete"
-        method="POST"
+        action="/genres/<%=genre.name%>/<%=movie.title%>/delete"
+        method="post"
         style="margin: 0"
       >
         <button
@@ -76,12 +76,12 @@
         </button>
       </form>
 
-      <!-- Return to Genre's Movies -->
-      <a href="/genres/<%= genreName %>">Return to <%= genreName %> Movies</a>
+      <!-- Return to Movies -->
+      <a href="/genres/<%=genre.name%>">Return to Movies</a>
     </div>
     <% } else { %>
     <p>Movie not found!</p>
-    <a href="/genres">Return to Genres</a>
+    <a href="/genres/<%=genre.name%>">Return to Movies</a>
     <% } %>
   </body>
 </html>

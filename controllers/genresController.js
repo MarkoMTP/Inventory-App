@@ -1,4 +1,5 @@
 const db = require("../db/queries");
+const genresRoute = require("../routes/genresRoute");
 
 exports.getAllGenres = async (req, res) => {
   try {
@@ -59,22 +60,52 @@ exports.addMovieToGenre = async (req, res) => {
 };
 
 exports.getMovieDetails = async (req, res) => {
-  const movieTitle = req.params.title; // Movie title from the URL
-  const genreName = req.params.name; // Genre name from the URL
+  const { title: movieTitle, name: genreName } = req.params; // Destructure parameters from the URL
 
   try {
     // Fetch movie details by title
     const movie = await db.findMovieByName(movieTitle);
 
     if (!movie) {
-      // If no movie is found, return a 404 page or message
-      return res.status(404).send("Movie not found");
+      // If no movie is found, return a 404 status with a descriptive message
+      return res.status(404).json({ error: "Movie not found" });
     }
 
     // Render the view with the movie details and genre
-    res.render("movieDetails", { genreName, movie }); // Pass the movie object to the view
+    return res.render("movieDetails", { genre: { name: genreName }, movie }); // Pass movie and genre to the view
   } catch (error) {
-    console.error("Error fetching movie details:", error.message);
-    res.status(500).send("An error occurred while fetching the movie details.");
+    console.error("Error fetching movie details:", error);
+
+    // Return a generic 500 error with a helpful message
+    return res.status(500).json({
+      error:
+        "An error occurred while fetching the movie details. Please try again later.",
+    });
+  }
+};
+
+exports.deleteMovie = async (req, res) => {
+  const { title: movieTitle } = req.params; // Only destructure the movie title
+
+  try {
+    // Step 1: Fetch movieId by title
+    const movieId = await db.findMovieId(movieTitle);
+
+    // If movieId is not found, return a 404
+    const genreId = await db.findGenreId(req.params.name); // Fetch genreId by genre name
+    if (!genreId) {
+      return res.status(404).json({ error: "Genre not found." });
+    }
+    // Step 2: Remove the movie (and its associations)
+
+    await db.removeMovie(genreId, movieId);
+
+    // Step 3: Send a success response
+    return res.redirect("/genres");
+  } catch (error) {
+    console.error("Error deleting movie:", error); // Log the full error for better debugging
+    return res
+      .status(500)
+      .json({ error: "An error occurred while deleting the movie." });
   }
 };
