@@ -3,50 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Movie Details</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        line-height: 1.6;
-        max-width: 800px;
-        margin: 0 auto;
-        padding: 20px;
-      }
-      .movie-details {
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        padding: 15px;
-        margin-bottom: 20px;
-      }
-      .movie-details h2 {
-        margin-top: 0;
-      }
-      .actions {
-        display: flex;
-        justify-content: space-between;
-      }
-      button {
-        padding: 10px 15px;
-        background-color: red;
-        color: white;
-        border: none;
-        border-radius: 3px;
-        cursor: pointer;
-      }
-      button:hover {
-        background-color: darkred;
-      }
-      a {
-        padding: 10px 15px;
-        background-color: #007bff;
-        color: white;
-        text-decoration: none;
-        border-radius: 3px;
-      }
-      a:hover {
-        background-color: #0056b3;
-      }
-    </style>
+    <title><%= movie.title %> - Details</title>
+
+    <!-- Link to the external CSS file -->
+    <link rel="stylesheet" href="/movieDetails.css" />
   </head>
   <body>
     <h1>Movie Details</h1>
@@ -57,14 +17,16 @@
       <h2><%= movie.title %></h2>
       <p><strong>Release Year:</strong> <%= movie.release_year %></p>
       <p><strong>Director:</strong> <%= movie.director %></p>
-      <p><strong>Description:</strong> <%= movie.description %></p>
+      <div class="description">
+        <p><strong>Description:</strong> <%= movie.description %></p>
+      </div>
     </div>
 
     <!-- Actions -->
     <div class="actions">
       <!-- Delete Movie Form -->
       <form
-        action="/genres/<%=genre.name%>/<%=movie.title%>/delete"
+        action="/genres/<%= genre.name %>/<%= movie.title %>/delete"
         method="post"
         style="margin: 0"
       >
@@ -77,11 +39,11 @@
       </form>
 
       <!-- Return to Movies -->
-      <a href="/genres/<%=genre.name%>">Return to Movies</a>
+      <a href="/genres/<%= genre.name %>">Return to Movies</a>
     </div>
     <% } else { %>
     <p>Movie not found!</p>
-    <a href="/genres/<%=genre.name%>">Return to Movies</a>
+    <a href="/genres/<%= genre.name %>">Return to Movies</a>
     <% } %>
   </body>
 </html>

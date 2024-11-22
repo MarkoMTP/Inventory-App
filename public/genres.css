@@ -1,0 +1,94 @@
+/* Basic reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f9;
+  color: #333;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+}
+
+h1 {
+  font-size: 3rem; /* Increased size */
+  color: #4a90e2;
+  margin-bottom: 30px; /* Increased space below the heading */
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+}
+
+li {
+  background-color: #fff;
+  padding: 15px 30px; /* Increased padding */
+  margin: 15px; /* Increased margin */
+  border: 2px solid #ddd; /* Thicker border */
+  border-radius: 8px; /* Slightly rounded corners */
+  font-size: 1.5rem; /* Larger font */
+  transition: all 0.3s ease;
+}
+
+li:hover {
+  background-color: #e6f7ff;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+a {
+  text-decoration: none;
+  color: #007bff;
+  font-weight: bold;
+  font-size: 1.5rem; /* Larger font size */
+}
+
+a:hover {
+  color: #004085;
+}
+
+a:active {
+  color: #003366;
+}
+
+/* Links to the bottom */
+a[href="/"],
+a[href="/genres/new"] {
+  display: inline-block;
+  margin-top: 30px; /* Increased space between elements */
+  text-decoration: none;
+  font-size: 1.25rem; /* Slightly bigger font for links */
+  padding: 12px 30px; /* Increased button size */
+  background-color: #4a90e2;
+  color: #fff;
+  border-radius: 8px;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+a[href="/"]:hover,
+a[href="/genres/new"]:hover {
+  background-color: #357abd;
+}
+
+a[href="/"]:active,
+a[href="/genres/new"]:active {
+  background-color: #285979;
+}
+
+a[href="/genres/new"] {
+  margin-left: 20px; /* More space between the links */
+}

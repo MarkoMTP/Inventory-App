@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Error</title>
+    <style>
+      /* General Styles */
+      body {
+        font-family: "Arial", sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f7f9fc;
+        color: #333;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+
+      .error-container {
+        background-color: #ffffff;
+        padding: 40px 30px;
+        border-radius: 10px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        max-width: 500px;
+        width: 90%;
+        text-align: center;
+      }
+
+      h1 {
+        font-size: 3rem;
+        color: #e74c3c; /* Red for error */
+        margin-bottom: 20px;
+      }
+
+      p {
+        font-size: 1.2rem;
+        color: #2c3e50;
+        margin-bottom: 20px;
+      }
+
+      a {
+        text-decoration: none;
+        background-color: #3498db;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-size: 1.1rem;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+      }
+
+      a:hover {
+        background-color: #2980b9;
+        transform: scale(1.05);
+      }
+
+      a:active {
+        background-color: #1e70a4;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="error-container">
+      <h1>Error</h1>
+      <p><%= error %></p>
+      <a href="/genres">Back to Genres</a>
+    </div>
+  </body>
+</html>

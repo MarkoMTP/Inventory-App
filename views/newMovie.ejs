@@ -4,10 +4,149 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Add New Movie</title>
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f7f9fc;
+        color: #333;
+        text-align: center;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        color: #2c3e50;
+        margin-top: 40px;
+        margin-bottom: 20px;
+      }
+
+      form {
+        background-color: #ffffff;
+        padding: 25px;
+        margin: 0 auto;
+        max-width: 500px;
+        border-radius: 10px;
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      div {
+        margin-bottom: 15px;
+        width: 100%;
+      }
+
+      label {
+        font-size: 1.1rem;
+        margin-bottom: 5px;
+        color: #34495e;
+        text-align: left;
+        display: block;
+      }
+
+      input[type="text"],
+      input[type="number"],
+      textarea {
+        padding: 10px 15px;
+        font-size: 1em;
+        width: 90%;
+        border: 1.5px solid #bdc3c7;
+        border-radius: 8px;
+        background-color: #f8f9fa;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      input[type="text"]:focus,
+      input[type="number"]:focus,
+      textarea:focus {
+        border-color: #5dade2;
+        box-shadow: 0 0 5px rgba(93, 173, 226, 0.5);
+        outline: none;
+      }
+
+      textarea {
+        resize: none;
+      }
+
+      button {
+        background-color: #28a745;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 50px;
+        font-size: 1.1em;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+      }
+
+      button:hover {
+        background-color: #218838;
+        transform: translateY(-3px);
+      }
+
+      button:focus {
+        outline: none;
+      }
+
+      a {
+        color: #3498db;
+        font-size: 1em;
+        text-decoration: none;
+        margin-top: 20px;
+        display: inline-block;
+        transition: color 0.3s ease, transform 0.3s ease;
+      }
+
+      a:hover {
+        color: #2e86c1;
+        transform: scale(1.05);
+      }
+
+      a:active {
+        color: #1c5787;
+      }
+
+      /* Centering content */
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        text-align: center;
+      }
+
+      /* Media Query for Small Screens */
+      @media (max-width: 768px) {
+        h1 {
+          font-size: 2rem;
+        }
+
+        label {
+          font-size: 1rem;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        textarea {
+          font-size: 0.9em;
+          padding: 8px 12px;
+        }
+
+        button {
+          font-size: 1em;
+          padding: 10px 15px;
+        }
+
+        a {
+          font-size: 0.9em;
+        }
+      }
+    </style>
   </head>
   <body>
-    <h1>Add a New Movie To "<%=genre.name%>" Genre</h1>
-    <form action="/genres/<%=genre.name%>" method="POST">
+    <h1>Add a New Movie To "<%= genre.name %>" Genre</h1>
+    <form action="/genres/<%= genre.name %>" method="POST">
       <div>
         <label for="title">Movie Title:</label>
         <input type="text" id="title" name="title" required />
@@ -25,11 +164,12 @@
         <textarea
           id="description"
           name="description"
-          rows="4"
+          rows="7"
           required
         ></textarea>
       </div>
       <button type="submit">Add Movie</button>
     </form>
+    <a href="/genres/<%= genre.name %>">Back to Genre</a>
   </body>
 </html>

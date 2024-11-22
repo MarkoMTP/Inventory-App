@@ -108,12 +108,15 @@ exports.deleteMovie = async (req, res) => {
 exports.deleteGenres = async (req, res) => {
   const movies = await db.findMoviesByGenreName(req.params.name);
   const genreId = await db.findGenreId(req.params.name);
+
   if (movies.length > 0) {
-    console.error("genre can be deleted only when there is no movies");
-    res.redirect(`/genres/${req.params.name}`);
+    console.error("Genre can be deleted only when there are no movies");
+    res.render("errorForDelGenres", {
+      error: "Genre can be deleted only when there are no movies",
+    });
   } else {
     await db.deleteGenre(genreId);
-    console.log("successfully deleted genre");
+    console.log("Successfully deleted genre");
     res.redirect("/genres");
   }
 };
