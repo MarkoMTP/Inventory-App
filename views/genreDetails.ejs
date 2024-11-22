@@ -54,7 +54,18 @@
     <% } else { %>
     <p>Invalid genre. Cannot add a movie.</p>
     <% } %>
-
+      <br>
+      <form
+      action="/genres/<%=genre.name%>/delete"
+      method="post"
+      style="margin: 0"
+    >
+      <button
+        type="submit"
+        onclick="return confirm('Are you sure you want to delete this genre?');"
+      >
+        Delete Genre
+      </button>
     <br />
     <a href="/genres">Back to Genres</a>
   </body>

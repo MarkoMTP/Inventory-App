@@ -48,8 +48,8 @@ exports.addMovieToGenre = async (req, res) => {
     if (!genreId) {
       return res.status(404).send("Genre not found");
     }
-
-    await db.linkMovieToGenre(title, genreId);
+    const movieId = await db.findMovieId(title);
+    await db.linkMovieToGenre(movieId, genreId);
     res.redirect(`/genres/${genreName}`); // Redirect instead of rendering directly
   } catch (error) {
     console.error("Error occurred:", error.message);
@@ -85,27 +85,35 @@ exports.getMovieDetails = async (req, res) => {
 };
 
 exports.deleteMovie = async (req, res) => {
-  const { title: movieTitle } = req.params; // Only destructure the movie title
+  const { title: movieTitle, name: genreName } = req.params; // Only destructure the movie title
 
   try {
     // Step 1: Fetch movieId by title
     const movieId = await db.findMovieId(movieTitle);
 
-    // If movieId is not found, return a 404
-    const genreId = await db.findGenreId(req.params.name); // Fetch genreId by genre name
-    if (!genreId) {
-      return res.status(404).json({ error: "Genre not found." });
-    }
     // Step 2: Remove the movie (and its associations)
 
-    await db.removeMovie(genreId, movieId);
+    await db.removeMovie(movieId);
 
     // Step 3: Send a success response
-    return res.redirect("/genres");
+    return res.redirect(`/genres/${genreName}`);
   } catch (error) {
     console.error("Error deleting movie:", error); // Log the full error for better debugging
     return res
       .status(500)
       .json({ error: "An error occurred while deleting the movie." });
+  }
+};
+
+exports.deleteGenres = async (req, res) => {
+  const movies = await db.findMoviesByGenreName(req.params.name);
+  const genreId = await db.findGenreId(req.params.name);
+  if (movies.length > 0) {
+    console.error("genre can be deleted only when there is no movies");
+    res.redirect(`/genres/${req.params.name}`);
+  } else {
+    await db.deleteGenre(genreId);
+    console.log("successfully deleted genre");
+    res.redirect("/genres");
   }
 };

@@ -27,4 +27,6 @@ genresRoute.get("/:name/:title/details", genresController.getMovieDetails);
 
 genresRoute.post("/:name/:title/delete", genresController.deleteMovie);
 
+genresRoute.post("/:name/delete", genresController.deleteGenres);
+
 module.exports = genresRoute;

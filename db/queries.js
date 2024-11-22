@@ -122,13 +122,10 @@ async function findMovieByName(movieTitle) {
   }
 }
 
-async function removeMovie(genreId, movieId) {
+async function removeMovie(movieId) {
   try {
     // Step 1: Remove the movie-genre association
-    await pool.query(
-      `DELETE FROM movie_genres WHERE movie_id = $1 AND genre_id = $2`,
-      [movieId, genreId]
-    );
+    await pool.query(`DELETE FROM movie_genres WHERE movie_id = $1`, [movieId]);
 
     // Step 2: Delete the movie from the movies table
     await pool.query(
@@ -136,16 +133,25 @@ async function removeMovie(genreId, movieId) {
       [movieId] // Passing movieId as a parameter
     );
 
-    console.log(
-      `Movie with ID ${movieId} successfully deleted and unlinked from genre with ID ${genreId}`
-    );
+    console.log(`Movie with ID ${movieId} successfully deleted`);
   } catch (error) {
     console.error("Error removing movie:", error.message);
     throw new Error("An error occurred while removing the movie.");
   }
 }
 
+async function deleteGenre(genreId) {
+  try {
+    await pool.query(`DELETE FROM genres WHERE id = $1`, [genreId]);
+    console.log("genre succesfully deleted");
+  } catch (error) {
+    console.error("Error removing genres:", error.message);
+    throw new Error("An error occurred while removing the genre.");
+  }
+}
+
 module.exports = {
+  deleteGenre,
   createNewGenre,
   getAllGenres,
   findGenreByName,
