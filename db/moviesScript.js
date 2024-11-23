@@ -1,7 +1,6 @@
 const { Pool } = require("pg");
 require("dotenv").config();
 
-// Assuming your pool is already configured correctly
 const pool = new Pool({
   connectionString: process.env.SUPABASE_URL, // Replace with your Supabase URL
 });

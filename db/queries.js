@@ -59,22 +59,6 @@ async function findMovieId(title) {
     throw error; // Re-throw the error to handle it in the caller
   }
 }
-async function linkMovieToGenre(movieId, genreId) {
-  try {
-    await pool.query(
-      "INSERT INTO movie_genres (movie_id, genre_id) VALUES ($1, $2)",
-      [movieId, genreId]
-    );
-    console.log("Movie successfully linked to genre.");
-  } catch (error) {
-    if (error.code === "23505") {
-      console.log("This movie is already linked to this genre."); // Unique constraint violation
-    } else {
-      console.error("Error linking movie to genre:", error.message);
-      throw error;
-    }
-  }
-}
 
 async function findMoviesByGenreName(genreName) {
   try {
@@ -93,6 +77,23 @@ async function findMoviesByGenreName(genreName) {
       error.message
     );
     throw error;
+  }
+}
+
+async function linkMovieToGenre(movieId, genreId) {
+  try {
+    await pool.query(
+      "INSERT INTO movie_genres (movie_id, genre_id) VALUES ($1, $2)",
+      [movieId, genreId]
+    );
+    console.log("Movie successfully linked to genre.");
+  } catch (error) {
+    if (error.code === "23505") {
+      console.log("This movie is already linked to this genre."); // Unique constraint violation
+    } else {
+      console.error("Error linking movie to genre:", error.message);
+      throw error;
+    }
   }
 }
 
